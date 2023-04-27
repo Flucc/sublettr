@@ -1,15 +1,15 @@
 <script lang="ts">
-	import '@skeletonlabs/skeleton/themes/theme-gold-nouveau.css';
+	import '@skeletonlabs/skeleton/themes/theme-crimson.css';
 	import '@skeletonlabs/skeleton/styles/all.css';
 	import '../app.postcss';
 	import { AppBar, AppShell, toastStore, Toast, autoModeWatcher } from '@skeletonlabs/skeleton';
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { Brush, Inbox, User, BookMarked, LogIn, UserPlus } from 'lucide-svelte';
+	import { Brush, Inbox, User, BookMarked, LogIn, UserPlus} from 'lucide-svelte';
 
 	// Replace with a proper authentication check
-	let isAuthenticated = false;
+	let isAuthenticated = true;
 
 	function navigateTo(route: string): void {
 		goto(route);
@@ -23,7 +23,7 @@
 		if (!isAuthenticated) {
 			toastStore.trigger(t);
 		} else {
-			navigateTo('/login');
+			navigateTo('/post');
 		}
 	}
 </script>
@@ -31,12 +31,13 @@
 <svelte:head
 	>{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}</svelte:head
 >
+
 <AppShell>
 	<svelte:fragment slot="header">
 		<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
 			<svelte:fragment slot="lead">
 				<a href="/" class="logo" on:click|preventDefault={() => navigateTo('/')}>
-					<span><h1 class="gradient-heading">Sublettr</h1></span>
+					<span><h1  class="gradient-heading font-bold text-xl">Sublettr</h1> </span>
 				</a>
 			</svelte:fragment>
 			<svelte:fragment slot="default">

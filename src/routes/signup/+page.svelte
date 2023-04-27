@@ -14,7 +14,7 @@
 
 	async function signUp(event) {
 		event.preventDefault();
-		
+
 		if (password !== confirmed_password) {
 			const t: ToastSettings = {
 				message: 'Passwords are different!',
@@ -23,8 +23,8 @@
 			toastStore.trigger(t);
 			return;
 		}
-        // Implement your sign-up logic here, e.g., call your authentication API
-        const isRegistered = true;
+		// Implement your sign-up logic here, e.g., call your authentication API
+		const isRegistered = true;
 		if (isRegistered) {
 			// Redirect to the login page after successful registration
 			goto('/login');

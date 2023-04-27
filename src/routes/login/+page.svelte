@@ -27,7 +27,7 @@
 		}
 	}
 
-    function forgotPassword() {
+	function forgotPassword() {
 		// Redirect to the forgot password page
 		goto('/forgot-password');
 	}
