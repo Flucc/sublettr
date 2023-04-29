@@ -1,12 +1,13 @@
-<script>
-	export let data;
-	let { countries } = data;
-	$: ({ countries } = data);
+<script lang="ts">
+	import type { Listing } from '$lib/types';
+	import { listings } from '$lib/localData';
+
+	let localListings: Listing[] = listings;
 </script>
 
-<ul>bruh</ul>
-<ul>
-	{#each countries as country}
-		<li>{country.name}</li>
-	{/each}
-</ul>
+{#each localListings as listing}
+	<a href="listing/1">
+		<h2>{listing.title}</h2>
+		<p>{listing.description}</p>
+	</a>
+{/each}

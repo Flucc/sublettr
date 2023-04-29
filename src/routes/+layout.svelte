@@ -6,7 +6,7 @@
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { Brush, Inbox, User, BookMarked, LogIn, UserPlus} from 'lucide-svelte';
+	import { Brush, Inbox, User, BookMarked, LogIn, UserPlus } from 'lucide-svelte';
 
 	// Replace with a proper authentication check
 	let isAuthenticated = true;
@@ -37,7 +37,7 @@
 		<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
 			<svelte:fragment slot="lead">
 				<a href="/" class="logo" on:click|preventDefault={() => navigateTo('/')}>
-					<span><h1  class="gradient-heading font-bold text-xl">Sublettr</h1> </span>
+					<span><h1 class="gradient-heading font-bold text-xl">Sublettr</h1> </span>
 				</a>
 			</svelte:fragment>
 			<svelte:fragment slot="default">

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '@skeletonlabs/skeleton/styles/all.css';
+	import { enhance } from '$app/forms';
 	import { onMount, tick } from 'svelte';
 	import {
 		AppShell,
@@ -10,13 +10,14 @@
 	import {X} from 'lucide-svelte';
 	
 	import { user } from '$lib/store';
+	import type { ActionData } from "./$types";
+	export let form: ActionData
 
-	let files: FileList;
 	let title = '';
 	let description = '';
 	let price = '';
 	let address = '';
-	let inputAddr = '';
+
 	let addressSuggestions = [];
 
 	async function handleAddressInput(event) {
@@ -37,21 +38,11 @@
 	}
 
 	function setAddress(suggestion) {
-		inputAddr = suggestion.display_name;
+		address = suggestion.display_name;
 		addressSuggestions = [];
 	}
 
-	async function postListing(event) {
-		event.preventDefault();
-		// Implement your post-listing logic here, e.g., call your listing API
-		// You may need to pass the user's ID as well
 
-		// Reset the input fields after successful submission
-		title = '';
-		description = '';
-		price = '';
-		address = '';
-	}
 
     let selectedImages: string[] = [];
 
@@ -63,6 +54,7 @@
 
         const inputElement = e.target as HTMLInputElement;
         const fileList = inputElement.files;
+		
         if (fileList && fileList.length > 0) {
             const file = fileList[0];
             const reader = new FileReader();
@@ -82,29 +74,30 @@
 <AppShell>
 	<svelte:fragment slot="default">
 		<h1 class="font-bold w-full">Post a Listing</h1>
-		<form on:submit={postListing}>
+		<form method="POST" action="?/postListing" enctype="multipart/form-data" use:enhance>
 
 			<div class="image-grid">
 				{#each selectedImages as image, index}
 					<div class="image-container">
-						<img class="object-contain w-full h-full" src="{image}" alt="Selected image" />
+						<input type="hidden" name="files" value={selectedImages}>
+						<img class="object-contain w-full h-full" src="{image}" alt="Selected image {index}" />
 						<button on:click={() => removeImage(index)}><X/></button>
 					</div>
 				{/each}
 			</div>
 			<section class="!w-full text-center">
 				<FileButton
-					name="files"
+					name="bruh"
+					type="file"
 					button="btn-xl variant-soft-primary"
-					bind:files
 					accept="image/*"
-					on:change={onChangeHandler}>Add Photos</FileButton
-				>
+					on:change={onChangeHandler}>Add Photos
+				</FileButton>
 			</section>
-
+			
 			<label class="label">
 				<span>Title</span>
-				<input class="input" type="text" placeholder="Listing title" bind:value={title} required />
+				<input class="input" type="text" placeholder="Listing title" bind:value={title} name='title'  required />
 			</label>
 
 			<label>
@@ -113,7 +106,8 @@
 					class="input"
 					type="text"
 					placeholder="Enter address"
-					bind:value={inputAddr}
+					bind:value={address}
+					name='address'
 					on:input={handleAddressInput}
 				/>
 			</label>
@@ -122,9 +116,9 @@
 				{#if addressSuggestions.length > 0}
 					{#each addressSuggestions as suggestion}
 						<li>
-							<span class="flex-auto" on:click={() => setAddress(suggestion)}>
-								{suggestion.display_name}</span
-							>
+							<button class="flex-auto" on:click={() => setAddress(suggestion)}>
+								{suggestion.display_name}
+							</button>
 						</li>
 					{/each}
 				{/if}
@@ -136,6 +130,7 @@
 					class="input"
 					placeholder="Listing description"
 					bind:value={description}
+					name='description'
 					required
 				/>
 			</label>
@@ -148,11 +143,12 @@
 					step="1"
 					placeholder="0"
 					bind:value={price}
+					name='price'
 					required
 				/>
 			</label>
 
-			<button class="btn variant-filled-primary" type="submit">Post Listing</button>
+			<button class="btn variant-filled-primary">Post Listing</button>
 		</form>
 	</svelte:fragment>
 </AppShell>
