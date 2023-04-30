@@ -43,29 +43,58 @@
 	}
 
 
+	let selectedImageBlobs: Blob[] = [];
+    let selectedImages: File[] = [];
+    let files: FileList;
+    let dataUrls: string[] = [];
 
-    let selectedImages: string[] = [];
-
-    function onChangeHandler(e: Event): void {
-        if (selectedImages.length >= 6) {
-            alert("You can only upload a maximum of 6 images.");
-            return;
-        }
-
-        const inputElement = e.target as HTMLInputElement;
-        const fileList = inputElement.files;
-		
-        if (fileList && fileList.length > 0) {
-            const file = fileList[0];
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                selectedImages = [...selectedImages, event.target.result as string];
-            };
-            reader.readAsDataURL(file);
-        }
+    async function convertFileToBlob(file: File) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const blob = new Blob([new Uint8Array(reader.result as ArrayBuffer)]);
+          resolve(blob);
+        };
+        reader.onerror = () => {
+          reject(reader.error);
+        };
+        reader.readAsArrayBuffer(file);
+      });
     }
 
-    function removeImage(index: number): void {
+	async function onChangeHandler(e: Event): void {
+    if (selectedImages.length + files.length > 6) {
+        alert("You can only upload a maximum of 6 images.");
+        return;
+    }
+    const file = files.item(0);
+    if (file != null) {
+        selectedImages.push(file);
+        const blob = await convertFileToBlob(file);
+        selectedImageBlobs.push(blob);
+
+        // Convert the blob to a Base64 Data URL
+        const dataUrl = await blobToDataUrl(blob);
+        dataUrls.push(dataUrl);
+    }
+    console.log(selectedImages);
+    selectedImages = selectedImages.slice();
+}
+
+async function blobToDataUrl(blob) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            resolve(reader.result);
+        };
+        reader.onerror = () => {
+            reject(reader.error);
+        };
+        reader.readAsDataURL(blob);
+    });
+}
+
+	function removeImage(index: number): void {
         selectedImages.splice(index, 1);
         selectedImages = [...selectedImages];
     }
@@ -79,8 +108,8 @@
 			<div class="image-grid">
 				{#each selectedImages as image, index}
 					<div class="image-container">
-						<input type="hidden" name="files" value={selectedImages}>
-						<img class="object-contain w-full h-full" src="{image}" alt="Selected image {index}" />
+						<input type="hidden" name="files" value={dataUrls[index]}>
+						<img class="object-contain w-full h-full" src="{URL.createObjectURL(image)}" alt="Selected image {index}" />
 						<button on:click={() => removeImage(index)}><X/></button>
 					</div>
 				{/each}
@@ -91,6 +120,7 @@
 					type="file"
 					button="btn-xl variant-soft-primary"
 					accept="image/*"
+					bind:files
 					on:change={onChangeHandler}>Add Photos
 				</FileButton>
 			</section>
