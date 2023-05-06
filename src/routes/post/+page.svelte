@@ -53,6 +53,7 @@
 
 	let selectedImages: string[] = [];
 	let selectedBlobs: string[] = [];
+	let imageUuidList: string[] = [];
 	let files: FileList;
 
 	async function onChangeHandler(e: Event) {
@@ -70,9 +71,11 @@
 				selectedImages.push(image);
 				const data = image.split(',');
 
+				imageUuidList.push(uuid());
 				selectedBlobs.push(data[1]);
 				selectedBlobs = selectedBlobs.slice();
 				selectedImages = selectedImages.slice();
+				imageUuidList = imageUuidList.slice();
 			};
 		}
 	}
@@ -80,19 +83,18 @@
 	function removeImage(index: number): void {
 		selectedImages.splice(index, 1);
 		selectedBlobs.splice(index, 1);
+		imageUuidList.splice(index, 1);
 		selectedImages = [...selectedImages];
 	}
 
-	let imageUuidList: string[] = [];
 	async function handleSubmit(e: Event) {
 		const promises = [];
 		for (let i = 0; i < 6; i++) {
-			imageUuidList.push(uuid());
 			// Upload the File object to Supabase Storage
 			promises.push(
 				supabase.storage
 					.from('listing_images')
-					.upload(imageUuidList[imageUuidList.length - 1], decode(selectedBlobs[i]), {
+					.upload(imageUuidList[i], decode(selectedBlobs[i]), {
 						contentType: 'image/*'
 					})
 			);
@@ -108,7 +110,6 @@
 			method="POST"
 			action="?/postListing"
 			enctype="multipart/form-data"
-			on:submit={handleSubmit}
 		>
 			<div class="image-grid">
 				{#each selectedImages as selectedImage, index}
@@ -195,7 +196,7 @@
 				/>
 			</label>
 
-			<button class="btn variant-filled-primary" type="submit">Post Listing</button>
+			<button class="btn variant-filled-primary" type="submit" on:submit|preventDefault={handleSubmit}>Post Listing</button>
 		</form>
 	</svelte:fragment>
 </AppShell>

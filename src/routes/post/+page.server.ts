@@ -9,8 +9,7 @@ export const actions = {
 		const price = Number(formData.get('price'));
 		const address = String(formData.get('address'));
 		const ownerId = 'some_user_id'; // Replace with actual user ID
-		tick();
-		const imageId = String(formData.getAll('files'));
+		const imageId = formData.getAll('files');
 		console.log(imageId);
 		return;
 		const results = await Promise.all(promises);
