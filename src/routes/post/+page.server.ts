@@ -10,24 +10,11 @@ export const actions = {
 		const address = String(formData.get('address'));
 		const ownerId = 'some_user_id'; // Replace with actual user ID
 		const imageId = formData.getAll('files');
-		console.log(imageId);
-		return;
-		const results = await Promise.all(promises);
 
-		const uploadedImages = [];
-
-		for (const result of results) {
-			if (result.error) {
-				console.log('Error uploading image:', result.error);
-			} else {
-				uploadedImages.push(result.data.Key);
-			}
-		}
-
-		console.log([{ title, description, price, address, images: uploadedImages, ownerId }]);
+		console.log([{ title, description, price, address, images: imageId, ownerId }]);
 		const { data, error } = await supabase
 			.from('listings')
-			.insert([{ title, description, price, address, images: uploadedImages, ownerId }]);
+			.insert([{ title, description, price, address, images: imageId, ownerId }]);
 
 		if (error) {
 			console.log('Error inserting data:', error);
