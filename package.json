@@ -40,6 +40,7 @@
 	"type": "module",
 	"dependencies": {
 		"@supabase/supabase-js": "^2.21.0",
+		"base64-arraybuffer": "^1.0.2",
 		"lucide-svelte": "^0.176.0",
 		"sharp": "^0.32.1",
 		"svelte-toast": "^1.0.0",
