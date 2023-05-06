@@ -20,5 +20,25 @@ export const listings: Listing[] = [
 		images: [],
 		slug: 'listing-2',
 		ownerId: 'user2'
+	},
+	{
+		id: '2',
+		title: 'Listing 2',
+		description: 'Description 2',
+		price: 200,
+		address: 'Address 2',
+		images: [],
+		slug: 'listing-2',
+		ownerId: 'user2'
+	},
+	{
+		id: '2',
+		title: 'Listing 2',
+		description: 'Description 2',
+		price: 200,
+		address: 'Address 2',
+		images: [],
+		slug: 'listing-2',
+		ownerId: 'user2'
 	}
 ];

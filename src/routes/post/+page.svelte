@@ -92,11 +92,9 @@
 		for (let i = 0; i < 6; i++) {
 			// Upload the File object to Supabase Storage
 			promises.push(
-				supabase.storage
-					.from('listing_images')
-					.upload(imageUuidList[i], decode(selectedBlobs[i]), {
-						contentType: 'image/*'
-					})
+				supabase.storage.from('listing_images').upload(imageUuidList[i], decode(selectedBlobs[i]), {
+					contentType: 'image/*'
+				})
 			);
 		}
 		await Promise.all(promises);
@@ -106,11 +104,7 @@
 <AppShell>
 	<svelte:fragment slot="default">
 		<h1 class="font-bold w-full">Post a Listing</h1>
-		<form
-			method="POST"
-			action="?/postListing"
-			enctype="multipart/form-data"
-		>
+		<form method="POST" action="?/postListing" enctype="multipart/form-data">
 			<div class="image-grid">
 				{#each selectedImages as selectedImage, index}
 					<div class="image-container">
@@ -196,7 +190,11 @@
 				/>
 			</label>
 
-			<button class="btn variant-filled-primary" type="submit" on:submit|preventDefault={handleSubmit}>Post Listing</button>
+			<button
+				class="btn variant-filled-primary"
+				type="submit"
+				on:submit|preventDefault={handleSubmit}>Post Listing</button
+			>
 		</form>
 	</svelte:fragment>
 </AppShell>
