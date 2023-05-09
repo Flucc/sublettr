@@ -1,4 +1,4 @@
-import { supabase } from '$lib/supabaseClient.js';
+import { supabase } from '$lib/supabase.js';
 import { tick } from 'svelte';
 
 export const actions = {

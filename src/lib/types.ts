@@ -7,6 +7,7 @@ export interface Listing {
 	images: string[];
 	slug: string;
 	ownerId: string;
+	still_available: boolean;
 }
 
 export interface User {
