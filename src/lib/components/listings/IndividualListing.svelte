@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { Listing } from "$lib/types";
+	import type { Listing } from '$lib/types';
 
 	export let listing: Listing;
-
 </script>
+
 <div class="flex justify-center">
 	<div class="max-w-screen-sm w-full text-token flex flex-col space-y-8 mx-auto">
 		<a class="card card-hover overflow-hidden mx-auto mb-8" href="/elements/cards">
@@ -19,7 +19,7 @@
 					<h6>{listing.still_available}</h6>
 					<h6 class="font-bold">Price: ${listing.price}</h6>
 				</div>
-				<h3 data-toc-ignore>{listing.price}</h3>
+				<h3 data-toc-ignore>{listing.title}</h3>
 				<article>
 					<p>
 						{listing.description}

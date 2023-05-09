@@ -2,55 +2,71 @@
 	import { onMount } from 'svelte';
 	import { Paginator } from '@skeletonlabs/skeleton';
 	import IndividualListing from '$lib/components/listings/IndividualListing.svelte';
-	import { pageStore, setPageIndex, setPageSize } from '$lib/page';
 	import type { Listing } from '$lib/types';
-	import { get } from 'svelte/store';
-	
+	import { type ToastSettings, toastStore } from '@skeletonlabs/skeleton';
+
+
 	export let listings: Listing[] = [];
-	export let data;
-	let source: Listing[] = [];
-	onMount(async () => {
-	  const response = await fetch(`/api/listings?pageIndex=0&pageSize=10`);
-	  const listings = await response.json();
-	  console.log('FAT' + listings)
-	});
-	console.log("BRUH source", source);
-	console.log("BRUH listings", listings);
-	console.log(data);
+
+	let sizeTotal = 0;
 	let page = {
 	  offset: 0,
 	  limit: 10,
-	  size: source.length,
-	  amounts: [1, 2, 5, 10]
+	  amounts: [1, 2, 5, 10],
+	  size: sizeTotal
 	};
 
-	$: paginatedSource = source.slice(
-	  page.offset * page.limit, // start
-	  page.offset * page.limit + page.limit // end
-	);
-	
+	onMount(async () => {
+		const response = await fetch(`/api/listings?pageIndex=0&pageSize=10`);
+		const data = await response.json();
+		listings = data.listings;
+		sizeTotal = data.total;
+		console.log("DATA:" + data.total);
+
+		// update the page object here
+		page = {
+		  ...page,
+		  size: sizeTotal
+		};
+
+		console.log("SIZE: " + sizeTotal);
+	});
+
 	async function onPageChange(e: CustomEvent): void {
-	  const response = await fetch(`/api/listings?pageIndex=${e.detail}&pageSize=${page.limit}`);
-	  const { listings } = await response.json();
-	  source = listings;
-	}
-	
-	async function onAmountChange(e: CustomEvent): void {
-	  setPageSize(e.detail);
-	  const response = await fetch(`/api/listings?pageIndex=${page.offset}&pageSize=${e.detail}`);
-	  const { listings } = await response.json();
-	  source = listings;
-	}
-  </script>
-  <ul>
-	{#each paginatedSource as listing}
-	  <li><IndividualListing listing={listing} /></li>
+  page.offset = e.detail;
+  const response = await fetch(`/api/listings?pageIndex=${page.offset}&pageSize=${page.limit}`);
+  const data = await response.json();
+  listings = data.listings;
+  if (data.listings.length === 0) {
+    const t: ToastSettings = {
+      message: 'No more listings!',
+      classes: 'border-4 gradient-heading'
+    };
+    toastStore.trigger(t);
+  } else {
+    listings = data.listings;
+    page.size = data.total;
+  }
+}
+
+async function onAmountChange(e: CustomEvent): void {
+  page.limit = e.detail;
+  const response = await fetch(`/api/listings?pageIndex=${page.offset}&pageSize=${page.limit}`);
+  const data = await response.json();
+  listings = data.listings;
+  page.size = data.total;
+}
+
+</script>
+
+<ul>
+	{#each listings as listing}
+		<li><IndividualListing {listing} /></li>
 	{/each}
-  </ul>
-	
-  <section
+</ul>
+
+<section
 	class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4 mb-8"
-  >
+>
 	<Paginator settings={page} on:page={onPageChange} on:amount={onAmountChange} />
-  </section>
-  
+</section>

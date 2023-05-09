@@ -6,9 +6,8 @@
 //       console.log("DATA",data);
 //       return data
 //     }
-  
+
 //     return {
 //       listing: fetchPosts()
 //     }
 // }
-  
