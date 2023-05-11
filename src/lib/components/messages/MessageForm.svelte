@@ -13,6 +13,10 @@
 </script>
 
 <form on:submit|preventDefault={handleSubmit}>
-	<textarea class="message-input" placeholder="Write your reply..." bind:value={message} />
+	<textarea
+		class="message-input"
+		placeholder="Write your reply..."
+		bind:value={message}
+	/>
 	<button class="reply-button" type="submit">Reply</button>
 </form>

@@ -1,7 +1,9 @@
 <script lang="ts">
 	import { AppShell } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
-	import Message, { type MessageData } from '$lib/components/messages/SendMessage.svelte';
+	import Message, {
+		type MessageData,
+	} from '$lib/components/messages/SendMessage.svelte';
 	import MessageForm from '$lib/components/messages/MessageForm.svelte';
 
 	let messages: MessageData[] = [];

@@ -5,7 +5,7 @@
 		AppShell,
 		FileButton,
 		Autocomplete,
-		type AutocompleteOption
+		type AutocompleteOption,
 	} from '@skeletonlabs/skeleton';
 	import { X } from 'lucide-svelte';
 	import { v4 as uuid } from 'uuid';
@@ -65,7 +65,7 @@
 		if (file != null) {
 			const reader = new FileReader();
 			reader.readAsDataURL(file);
-			reader.onload = (event) => {
+			reader.onload = event => {
 				if (!event.target) return;
 				const image = event.target.result as string;
 				selectedImages.push(image);
@@ -92,9 +92,11 @@
 		for (let i = 0; i < 6; i++) {
 			// Upload the File object to Supabase Storage
 			promises.push(
-				supabase.storage.from('listing_images').upload(imageUuidList[i], decode(selectedBlobs[i]), {
-					contentType: 'image/*'
-				})
+				supabase.storage
+					.from('listing_images')
+					.upload(imageUuidList[i], decode(selectedBlobs[i]), {
+						contentType: 'image/*',
+					})
 			);
 		}
 		await Promise.all(promises);

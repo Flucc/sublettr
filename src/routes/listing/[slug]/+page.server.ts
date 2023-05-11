@@ -14,6 +14,6 @@ export async function load({ params }: any): Promise<{ post: any; slug: any }> {
 
 	return {
 		post,
-		slug: params.slug
+		slug: params.slug,
 	};
 }

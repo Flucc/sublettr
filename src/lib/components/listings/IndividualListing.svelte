@@ -5,8 +5,13 @@
 </script>
 
 <div class="flex justify-center">
-	<div class="max-w-screen-sm w-full text-token flex flex-col space-y-8 mx-auto">
-		<a class="card card-hover overflow-hidden mx-auto mb-8" href="/elements/cards">
+	<div
+		class="max-w-screen-sm w-full text-token flex flex-col space-y-8 mx-auto"
+	>
+		<a
+			class="card card-hover overflow-hidden mx-auto mb-8"
+			href="/listing/{listing.id}"
+		>
 			<header>
 				<img
 					src="https://source.unsplash.com/random/1280x540?skeleton"

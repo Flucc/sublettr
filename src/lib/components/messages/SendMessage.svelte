@@ -16,5 +16,7 @@
 	<div class="content">
 		<p>{message.content}</p>
 	</div>
-	<time datetime={message.date.toISOString()}>{message.date.toLocaleString()}</time>
+	<time datetime={message.date.toISOString()}
+		>{message.date.toLocaleString()}</time
+	>
 </article>

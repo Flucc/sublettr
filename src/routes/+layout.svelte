@@ -2,11 +2,24 @@
 	import '@skeletonlabs/skeleton/themes/theme-crimson.css';
 	import '@skeletonlabs/skeleton/styles/all.css';
 	import '../app.postcss';
-	import { AppBar, AppShell, toastStore, Toast, autoModeWatcher } from '@skeletonlabs/skeleton';
+	import {
+		AppBar,
+		AppShell,
+		toastStore,
+		Toast,
+		autoModeWatcher,
+	} from '@skeletonlabs/skeleton';
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { Brush, Inbox, User, BookMarked, LogIn, UserPlus } from 'lucide-svelte';
+	import {
+		Brush,
+		Inbox,
+		User,
+		BookMarked,
+		LogIn,
+		UserPlus,
+	} from 'lucide-svelte';
 
 	// Replace with a proper authentication check
 	let isAuthenticated = true;
@@ -18,7 +31,7 @@
 	function handlePostListingClick(): void {
 		const t: ToastSettings = {
 			message: 'You need to login first!',
-			classes: 'border-4 gradient-heading'
+			classes: 'border-4 gradient-heading',
 		};
 		if (!isAuthenticated) {
 			toastStore.trigger(t);
@@ -34,10 +47,20 @@
 
 <AppShell>
 	<svelte:fragment slot="header">
-		<AppBar gridColumns="grid-cols-3" slotDefault="place-self-center" slotTrail="place-content-end">
+		<AppBar
+			gridColumns="grid-cols-3"
+			slotDefault="place-self-center"
+			slotTrail="place-content-end"
+		>
 			<svelte:fragment slot="lead">
-				<a href="/" class="logo" on:click|preventDefault={() => navigateTo('/')}>
-					<span><h1 class="gradient-heading font-bold text-xl">Sublettr</h1> </span>
+				<a
+					href="/"
+					class="logo"
+					on:click|preventDefault={() => navigateTo('/')}
+				>
+					<span
+						><h1 class="gradient-heading font-bold text-xl">Sublettr</h1>
+					</span>
 				</a>
 			</svelte:fragment>
 			<svelte:fragment slot="default">

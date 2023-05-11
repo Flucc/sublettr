@@ -18,7 +18,7 @@
 		if (password !== confirmed_password) {
 			const t: ToastSettings = {
 				message: 'Passwords are different!',
-				classes: 'border-4 gradient-heading'
+				classes: 'border-4 gradient-heading',
 			};
 			toastStore.trigger(t);
 			return;
@@ -42,12 +42,24 @@
 			<form on:submit={signUp}>
 				<label class="label">
 					<span>First Name</span>
-					<input class="input" type="text" placeholder="John" bind:value={first_name} required />
+					<input
+						class="input"
+						type="text"
+						placeholder="John"
+						bind:value={first_name}
+						required
+					/>
 				</label>
 
 				<label class="label">
 					<span>Last Name</span>
-					<input class="input" type="text" placeholder="Smith" bind:value={last_name} required />
+					<input
+						class="input"
+						type="text"
+						placeholder="Smith"
+						bind:value={last_name}
+						required
+					/>
 				</label>
 
 				<label class="label">
@@ -68,7 +80,12 @@
 
 				<label class="label">
 					<span>Confirm Password</span>
-					<input class="input" type="password" bind:value={confirmed_password} required />
+					<input
+						class="input"
+						type="password"
+						bind:value={confirmed_password}
+						required
+					/>
 				</label>
 
 				<!-- <div class="input-group input-group-divider grid-cols-[auto_1fr_auto]">
@@ -77,7 +94,10 @@
             <button class="variant-filled-secondary">Submit</button>
         </div> -->
 
-				<button class="btn variant-filled-primary form-submit-button" type="submit">Sign Up</button>
+				<button
+					class="btn variant-filled-primary form-submit-button"
+					type="submit">Sign Up</button
+				>
 			</form>
 		</div>
 	</svelte:fragment>

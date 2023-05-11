@@ -31,7 +31,9 @@
 
 <AppShell>
 	<svelte:fragment slot="default">
-		<h1>{userData ? `${userData.first_name} ${userData.last_name}` : 'Loading...'}</h1>
+		<h1>
+			{userData ? `${userData.first_name} ${userData.last_name}` : 'Loading...'}
+		</h1>
 		{#if userData}
 			{#if editing}
 				<!-- Profile editing form -->

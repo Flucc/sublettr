@@ -21,7 +21,7 @@
 			// Show an error message or handle failed login attempt
 			const t: ToastSettings = {
 				message: 'Incorrect email or password!',
-				classes: 'border-4 gradient-heading'
+				classes: 'border-4 gradient-heading',
 			};
 			toastStore.trigger(t);
 		}
@@ -55,7 +55,10 @@
 					<input class="input" type="password" bind:value={password} required />
 				</label>
 
-				<button class="btn variant-filled-primary form-submit-button" type="submit">Log In</button>
+				<button
+					class="btn variant-filled-primary form-submit-button"
+					type="submit">Log In</button
+				>
 				<button
 					class="btn btn-sm variant-filled-tertiary form-submit-button"
 					type="button"
