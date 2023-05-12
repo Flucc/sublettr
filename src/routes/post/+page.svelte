@@ -11,16 +11,11 @@
 	import { v4 as uuid } from 'uuid';
 	import { decode } from 'base64-arraybuffer';
 	//import supabase from '$lib/supabaseClient';
-	import { user } from '$lib/store';
 	import type { ActionData } from './$types';
-	export let form: ActionData;
+  import {supabase} from '$lib/supabase.js';
+  export let form: ActionData;
 
-	import { createClient } from '@supabase/supabase-js';
 
-	export const supabase = createClient(
-		'https://kzqeeqcvryjxueiqowzx.supabase.co',
-		'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt6cWVlcWN2cnlqeHVlaXFvd3p4Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY4MjMxNjgyMSwiZXhwIjoxOTk3ODkyODIxfQ.ZuICzWQq18RKHsarr_9xOe3NXROhIHFvYhbJSZNts3U'
-	);
 
 	let title = '';
 	let description = '';

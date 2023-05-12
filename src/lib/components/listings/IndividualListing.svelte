@@ -1,9 +1,39 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+//	import { session } from '$lib/auth';
+	import { supabase } from '$lib/supabase.js';
 	import type { Listing } from '$lib/types';
 
 	export let listing: Listing;
-</script>
 
+	let user;
+
+	onMount(async () => {
+		//user = session.user;
+	});
+
+	async function addToBookmarks() {
+		if (!user) {
+			console.error('User is not logged in');
+			return;
+		}
+
+		const { data, error } = await supabase
+			.from('bookmarks')
+			.insert([
+				{
+					//user_id: user.id,
+					//listing_id: listing.id,
+				},
+			]);
+
+		if (error) {
+			console.error('Error adding bookmark:', error);
+		} else {
+			console.log('Bookmark added:', data);
+		}
+	}
+</script>
 <div class="flex justify-center">
 	<div
 		class="max-w-screen-sm w-full text-token flex flex-col space-y-8 mx-auto"
@@ -18,6 +48,12 @@
 					class="bg-black/50 w-full aspect-[21/9]"
 					alt="Post"
 				/>
+        <button
+				class="btn btn-primary"
+				on:click={addToBookmarks}
+			>
+				Add to Bookmarks
+			</button>
 			</header>
 			<div class="p-4 space-y-4">
 				<div class="flex justify-between items-center">
