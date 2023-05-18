@@ -1,6 +1,6 @@
 import { supabase } from '$lib/supabase.js';
 
-export async function GET({url}:any) {
+export async function GET({ url }: any) {
 	const pageIndex = Number(url.searchParams.get('pageIndex'));
 	const pageSize = Number(url.searchParams.get('pageSize'));
 

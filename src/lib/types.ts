@@ -8,8 +8,7 @@ export interface Listing {
 	slug: string;
 	ownerId: string;
 	dateTimePosted: string;
-  still_available: boolean;
-
+	still_available: boolean;
 }
 
 export interface User {

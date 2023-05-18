@@ -1,6 +1,6 @@
 import { supabase } from '$lib/supabase.js';
 export const actions = {
-	postListing: async ({ request }:any) => {
+	postListing: async ({ request }: any) => {
 		const formData = await request.formData();
 		const title = formData.get('title');
 		const description = String(formData.get('description'));
@@ -8,15 +8,24 @@ export const actions = {
 		const address = String(formData.get('address'));
 		const ownerId = 'some_user_id'; // Replace with actual user ID
 		const imageId = formData.getAll('files');
-    const dateTimePosted = new Date().toLocaleDateString();
+		const dateTimePosted = new Date().toLocaleDateString();
 		const stillAvailable = false;
-    console.log([
+		console.log([
 			{ title, description, price, address, images: imageId, ownerId },
 		]);
 		const { data, error } = await supabase
 			.from('listings')
 			.insert([
-				{ title, description, price, address, images: imageId, ownerId, dateTimePosted, stillAvailable },
+				{
+					title,
+					description,
+					price,
+					address,
+					images: imageId,
+					ownerId,
+					dateTimePosted,
+					stillAvailable,
+				},
 			]);
 
 		if (error) {

@@ -12,10 +12,8 @@
 	import { decode } from 'base64-arraybuffer';
 	//import supabase from '$lib/supabaseClient';
 	import type { ActionData } from './$types';
-  import {supabase} from '$lib/supabase.js';
-  export let form: ActionData;
-
-
+	import { supabase } from '$lib/supabase.js';
+	export let form: ActionData;
 
 	let title = '';
 	let description = '';

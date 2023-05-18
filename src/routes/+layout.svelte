@@ -21,8 +21,35 @@
 		UserPlus,
 	} from 'lucide-svelte';
 
-	// Replace with a proper authentication check
-	let isAuthenticated = true;
+	// AUTH CHECK ON MOUNT
+	import { invalidate } from '$app/navigation';
+	import type { LayoutData } from './$types';
+
+	export let data: LayoutData;
+
+	$: ({ supabase, session } = data);
+
+	onMount(() => {
+		const {
+			data: { subscription },
+		} = supabase.auth.onAuthStateChange((event, _session) => {
+			if (_session?.expires_at !== session?.expires_at) {
+				invalidate('supabase:auth');
+			}
+		});
+
+		return () => subscription.unsubscribe();
+	});
+
+  async function handleLogout(event) {
+    event.preventDefault();
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      console.error('Error signing out:', error);
+    } else {
+      goto('/'); // Redirect to home page after successful logout
+    }
+  }
 
 	function navigateTo(route: string): void {
 		goto(route);
@@ -33,7 +60,7 @@
 			message: 'You need to login first!',
 			classes: 'border-4 gradient-heading',
 		};
-		if (!isAuthenticated) {
+		if (!session) {
 			toastStore.trigger(t);
 		} else {
 			navigateTo('/post');
@@ -75,7 +102,7 @@
 				</button>
 			</svelte:fragment>
 			<svelte:fragment slot="trail">
-				{#if !isAuthenticated}
+				{#if !session}
 					<button
 						type="button"
 						class="btn variant-filled-primary"
@@ -127,6 +154,16 @@
 						<span><User /></span>
 						<span>Profile</span>
 					</a>
+					<a
+					class="btn variant-filled-primary"
+					href="/profile"
+					style="border-radius: 9999px;"
+					data-sveltekit-preload-data="hover"
+					on:click|preventDefault={handleLogout}
+				>
+					<span><User /></span>
+					<span>Logout</span>
+				</a>
 					<!-- Add more functions as needed -->
 				{/if}
 			</svelte:fragment>
