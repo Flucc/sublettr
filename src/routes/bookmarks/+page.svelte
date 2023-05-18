@@ -7,8 +7,7 @@
 
 	import type { PageData } from './$types'
 
-	export let data: PageData
-
+	export let data: PageData;
 	export let listings: Listing[] = [];
 
 	let sizeTotal = 0;
@@ -20,27 +19,26 @@
 	};
 
 	onMount(async () => {
-		const response = await fetch(`/api/listings?pageIndex=0&pageSize=10`);
-		const data = await response.json();
-		listings = data.listings;
-		sizeTotal = data.total;
+		const response = await fetch(`/api/bookmarks?pageIndex=0&pageSize=10&userId=${data.session.user.id}`);
+		const res = await response.json();
+		listings = res.listings;
+		sizeTotal = res.total;
 		page = {
 			...page,
 			size: sizeTotal,
 		};
-
 	});
 
 	async function onPageChange(e: CustomEvent): void {
 		page.offset = e.detail;
 		const response = await fetch(
-			`/api/listings?pageIndex=${page.offset}&pageSize=${page.limit}`
+			`/api/bookmarks?pageIndex=${page.offset}&pageSize=${page.limit}&userId=${data.session.user.id}`
 		);
 		const data = await response.json();
 		listings = data.listings;
 		if (data.listings.length === 0) {
 			const t: ToastSettings = {
-				message: 'No more listings!',
+				message: 'No more bookmarks!',
 				classes: 'border-4 gradient-heading',
 			};
 			toastStore.trigger(t);
@@ -53,7 +51,7 @@
 	async function onAmountChange(e: CustomEvent): void {
 		page.limit = e.detail;
 		const response = await fetch(
-			`/api/listings?pageIndex=${page.offset}&pageSize=${page.limit}`
+			`/api/bookmarks?pageIndex=${page.offset}&pageSize=${page.limit}&userId=${data.session.user.id}`
 		);
 		const data = await response.json();
 		listings = data.listings;

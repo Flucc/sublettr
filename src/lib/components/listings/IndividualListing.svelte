@@ -1,55 +1,35 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	//	import { session } from '$lib/auth';
-	import { supabase } from '$lib/supabase.js';
+	import Bookmark from './Bookmark.svelte';
 	import type { Listing } from '$lib/types';
+  	import type { PageData } from './$types';
+
 
 	export let listing: Listing;
+	export let data: PageData;
 
-	let user;
-
-	onMount(async () => {
-		//user = session.user;
-	});
-
-	async function addToBookmarks() {
-		if (!user) {
-			console.error('User is not logged in');
-			return;
-		}
-
-		const { data, error } = await supabase.from('bookmarks').insert([
-			{
-				//user_id: user.id,
-				//listing_id: listing.id,
-			},
-		]);
-
-		if (error) {
-			console.error('Error adding bookmark:', error);
-		} else {
-			console.log('Bookmark added:', data);
-		}
-	}
+	$: if (data.session) {
+		console.log("POOP"+ data.session.user.id);
+  	}
 </script>
 
 <div class="flex justify-center">
 	<div
 		class="max-w-screen-sm w-full text-token flex flex-col space-y-8 mx-auto"
 	>
-		<a
+	{#if data.session}
+	<Bookmark userId={data.session.user.id} listingId={listing.id} />
+	{/if}	
+	<a
 			class="card card-hover overflow-hidden mx-auto mb-8"
 			href="/listing/{listing.id}"
 		>
+
 			<header>
 				<img
 					src="https://source.unsplash.com/random/1280x540?skeleton"
 					class="bg-black/50 w-full aspect-[21/9]"
 					alt="Post"
 				/>
-				<button class="btn btn-primary" on:click={addToBookmarks}>
-					Add to Bookmarks
-				</button>
 			</header>
 			<div class="p-4 space-y-4">
 				<div class="flex justify-between items-center">
