@@ -18,14 +18,20 @@ export interface User {
 	profileImage?: string;
 }
 
-export interface Message {
-	id: string;
-	senderId: string;
-	recipientId: string;
-	listingId: string;
-	content: string;
-	timestamp: string;
+export interface MessageData {
+	id: number;
+	created_at: string;
+	listing_id: number;
+	message_text_id: number;
+	message_texts: {
+		id: number;
+		created_at: string;
+		message_text: string;
+	};
+	receiver_id: string;
+	sender_id: string;
 }
+
 
 export interface Bookmark {
 	id: string;

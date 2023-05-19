@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { AppShell, toastStore, Toast } from '@skeletonlabs/skeleton';
-	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import { user } from '$lib/store';
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
 
 	let email = '';

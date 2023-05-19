@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { AppShell } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
-	import { user } from '$lib/store';
-
+	
 	let userData = null;
 	let isCurrentUser = false; // Set this value based on the current user
 	let editing = false;

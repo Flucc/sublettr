@@ -1,22 +1,20 @@
-<script lang="ts" context="module">
-	export interface MessageData {
-		id: string;
-		sender: string;
-		content: string;
-		date: Date;
-	}
-
+<script lang="ts">
+  	import type { MessageData } from "$lib/types";
+	import type { PageData } from './$types';
+	
 	export let message: MessageData;
+	export let data: PageData;
 </script>
 
 <article class="message">
 	<div class="sender">
-		<strong>{message.sender}</strong>
+		<strong>{message.sender_id}</strong>
 	</div>
 	<div class="content">
-		<p>{message.content}</p>
+		<p>{message.message_texts.message_text}</p>
 	</div>
-	<time datetime={message.date.toISOString()}
-		>{message.date.toLocaleString()}</time
+	<time datetime={new Date(message.created_at).toISOString()}
+		>{new Date(message.created_at).toLocaleString()}</time
 	>
 </article>
+
