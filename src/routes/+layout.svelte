@@ -112,17 +112,7 @@
 					>
 						<span><LogIn /></span>
 						<span>Login</span>
-					</button>
-					<button
-						type="button"
-						class="btn variant-filled-primary"
-						style="border-radius: 9999px;"
-						data-sveltekit-preload-data="hover"
-						on:click={() => navigateTo('/signup')}
-					>
-						<span><UserPlus /></span>
-						<span>Sign Up</span>
-					</button>
+					</button>	
 				{:else}
 					<a
 						class="btn variant-filled-primary"

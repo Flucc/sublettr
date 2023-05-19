@@ -1,7 +1,6 @@
 # Todo List
 
-- [] Create Protected Routes
-- [] Add Messaging
+- [x] Create Protected Routes
 - [] Add Rate Limiting
 - [] Migrate To Dropdown Menu
 - [] Create Mobile Version of Site
@@ -12,3 +11,4 @@
 - [] Fix Row Level Security
 - [] Fix Typescript errors
 - [] Make styling consistent
+- [] Maybe Implement SkeletonUI Chat for Messaging

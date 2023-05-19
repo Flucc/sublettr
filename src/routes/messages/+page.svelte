@@ -4,8 +4,6 @@
 	import Message from '$lib/components/messages/SendMessage.svelte';
 	import type { MessageData } from "$lib/types";
 
-	import MessageForm from '$lib/components/messages/MessageForm.svelte';
-
 
 	import type { PageData } from './$types'
 
