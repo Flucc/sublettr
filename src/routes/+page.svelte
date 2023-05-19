@@ -5,9 +5,9 @@
 	import type { Listing } from '$lib/types';
 	import { type ToastSettings, toastStore } from '@skeletonlabs/skeleton';
 
-	import type { PageData } from './$types'
+	import type { PageData } from './$types';
 
-	export let data: PageData
+	export let data: PageData;
 
 	export let listings: Listing[] = [];
 
@@ -28,7 +28,6 @@
 			...page,
 			size: sizeTotal,
 		};
-
 	});
 
 	async function onPageChange(e: CustomEvent): void {

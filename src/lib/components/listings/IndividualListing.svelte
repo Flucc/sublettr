@@ -1,29 +1,27 @@
 <script lang="ts">
 	import Bookmark from './Bookmark.svelte';
 	import type { Listing } from '$lib/types';
-  	import type { PageData } from './$types';
-
+	import type { PageData } from './$types';
 
 	export let listing: Listing;
 	export let data: PageData;
 
 	$: if (data.session) {
-		console.log("POOP"+ data.session.user.id);
-  	}
+		console.log('POOP' + data.session.user.id);
+	}
 </script>
 
 <div class="flex justify-center">
 	<div
 		class="max-w-screen-sm w-full text-token flex flex-col space-y-8 mx-auto"
 	>
-	{#if data.session}
-	<Bookmark userId={data.session.user.id} listingId={listing.id} />
-	{/if}	
-	<a
+		{#if data.session}
+			<Bookmark userId={data.session.user.id} listingId={listing.id} />
+		{/if}
+		<a
 			class="card card-hover overflow-hidden mx-auto mb-8"
 			href="/listing/{listing.id}"
 		>
-
 			<header>
 				<img
 					src="https://source.unsplash.com/random/1280x540?skeleton"

@@ -7,25 +7,40 @@
 		AppShell,
 		toastStore,
 		Toast,
+		ListBox,
+		ListBoxItem,
 		autoModeWatcher,
+		storePopup,
+		type PopupSettings,
+		popup,
 	} from '@skeletonlabs/skeleton';
+	import {
+		computePosition,
+		autoUpdate,
+		offset,
+		shift,
+		flip,
+		arrow,
+		size, autoPlacement, hide, inline 
+	} from '@floating-ui/dom';
 	import type { ToastSettings } from '@skeletonlabs/skeleton';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
-	import {
-		Brush,
-		Inbox,
-		User,
-		BookMarked,
-		LogIn,
-		UserPlus,
-	} from 'lucide-svelte';
+	import { Brush, Inbox, User, BookMarked, LogIn, LogOut, Github } from 'lucide-svelte';
 
 	// AUTH CHECK ON MOUNT
 	import { invalidate } from '$app/navigation';
 	import type { LayoutData } from './$types';
 
 	export let data: LayoutData;
+
+	storePopup.set({ computePosition, autoUpdate, offset, shift, flip, arrow, size, autoPlacement, hide, inline  });
+	const popupCombobox: PopupSettings = {
+		event: 'focus-click',
+		target: 'popupCombobox',
+		placement: 'bottom',
+		closeQuery: '.listbox-item',
+	};
 
 	$: ({ supabase, session } = data);
 
@@ -41,15 +56,15 @@
 		return () => subscription.unsubscribe();
 	});
 
-  async function handleLogout(event) {
-    event.preventDefault();
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error('Error signing out:', error);
-    } else {
-      goto('/'); // Redirect to home page after successful logout
-    }
-  }
+	async function handleLogout(event) {
+		event.preventDefault();
+		const { error } = await supabase.auth.signOut();
+		if (error) {
+			console.error('Error signing out:', error);
+		} else {
+			goto('/'); // Redirect to home page after successful logout
+		}
+	}
 
 	function navigateTo(route: string): void {
 		goto(route);
@@ -71,7 +86,6 @@
 <svelte:head
 	>{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}</svelte:head
 >
-
 <AppShell>
 	<svelte:fragment slot="header">
 		<AppBar
@@ -80,6 +94,9 @@
 			slotTrail="place-content-end"
 		>
 			<svelte:fragment slot="lead">
+				<a href="https://github.com/Flucc/sublettr"><Github/></a>
+			</svelte:fragment>
+			<svelte:fragment slot="default">
 				<a
 					href="/"
 					class="logo"
@@ -90,76 +107,74 @@
 					</span>
 				</a>
 			</svelte:fragment>
-			<svelte:fragment slot="default">
-				<button
-					type="button"
-					class="btn variant-filled-primary"
-					style="border-radius: 9999px;"
-					on:click={() => handlePostListingClick()}
-				>
-					<span><Brush /></span>
-					<span>Post Listing</span>
-				</button>
-			</svelte:fragment>
 			<svelte:fragment slot="trail">
-				{#if !session}
-					<button
-						type="button"
-						class="btn variant-filled-primary"
-						style="border-radius: 9999px;"
-						data-sveltekit-preload-data="hover"
-						on:click={() => navigateTo('/login')}
-					>
-						<span><LogIn /></span>
-						<span>Login</span>
-					</button>	
-				{:else}
-					<a
-						class="btn variant-filled-primary"
-						href="/messages"
-						style="border-radius: 9999px;"
-						data-sveltekit-preload-data="hover"
-						on:click|preventDefault={() => navigateTo('/messages')}
-					>
-						<span><Inbox /></span>
-						<span>Messages</span>
-					</a>
-					<a
-						class="btn variant-filled-primary"
-						href="/bookmarks"
-						style="border-radius: 9999px;"
-						data-sveltekit-preload-data="hover"
-						on:click|preventDefault={() => navigateTo('/bookmarks')}
-					>
-						<span><BookMarked /></span>
-						<span>Bookmarks</span>
-					</a>
-					<a
-						class="btn variant-filled-primary"
-						href="/profile"
-						style="border-radius: 9999px;"
-						data-sveltekit-preload-data="hover"
-						on:click|preventDefault={() => navigateTo('/profile')}
-					>
-						<span><User /></span>
-						<span>Profile</span>
-					</a>
-					<a
-					class="btn variant-filled-primary"
-					href="/profile"
-					style="border-radius: 9999px;"
-					data-sveltekit-preload-data="hover"
-					on:click|preventDefault={handleLogout}
-				>
-					<span><User /></span>
-					<span>Logout</span>
-				</a>
-					<!-- Add more functions as needed -->
-				{/if}
-			</svelte:fragment>
+
+			{#if session}
+			<div class ="flex rounded-md items-center mr-10">
+			<button
+			class="btn variant-filled justify-between flex items-center"
+			use:popup={popupCombobox}>
+			<span>Menu ↓</span>
+		</button>
+		<div data-popup="popupCombobox">
+			
+			
+
+			<ListBox active="variant-filled-primary">
+				<ListBoxItem on:click={() => handlePostListingClick()}>
+					<div class="flex items-center">
+					<Brush class="mr-2"/>
+					Post Listing
+				</div>
+				</ListBoxItem>
+					<ListBoxItem on:click={() => navigateTo('/messages')}>
+						<div class="flex items-center">
+						<Inbox class="mr-2" />
+						Messages
+					</div>
+					</ListBoxItem>
+					<ListBoxItem on:click={() => navigateTo('/bookmarks')}>
+						<div class="flex items-center">
+						<BookMarked class="mr-2"/>
+						Bookmarks
+					</div>
+					</ListBoxItem>
+					<ListBoxItem on:click={() => navigateTo('/profile')}>
+						<div class="flex items-center">
+						<User class="mr-2"/>
+						Profile
+					</div>
+					</ListBoxItem>
+					<ListBoxItem on:click={handleLogout}>
+						<div class="flex items-center">
+						<LogOut class="mr-2"/>
+						Logout
+					</div>
+					</ListBoxItem>
+				
+			</ListBox>
+		</div>
+	</div>
+		{:else}
+		<button
+		type="button"
+		class="btn variant-filled-primary"
+		style="border-radius: 9999px;"
+		data-sveltekit-preload-data="hover"
+		on:click={() => navigateTo('/login')}
+	>
+		<span><LogIn /></span>
+		<span>Login</span>
+	</button>	
+		{/if}
+	</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
 
 	<slot />
 </AppShell>
 <Toast />
+
+<slot />
+<Toast />
+

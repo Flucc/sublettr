@@ -9,20 +9,21 @@ export const actions: Actions = {
 		const { error } = await supabase.auth.signInWithOtp({
 			email,
 			options: {
-				emailRedirectTo: `${url.origin}/logging-in`
-			}
+				emailRedirectTo: `${url.origin}/logging-in`,
+			},
 		});
 
 		if (error) {
 			return fail(400, {
 				error: error.message,
-				values: { email }
+				values: { email },
 			});
 		}
 
 		return {
 			success: true,
-			message: 'Please check your email for a magic link to log into the website.'
+			message:
+				'Please check your email for a magic link to log into the website.',
 		};
-	}
+	},
 };

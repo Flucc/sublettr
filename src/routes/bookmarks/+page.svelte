@@ -5,7 +5,7 @@
 	import type { Listing } from '$lib/types';
 	import { type ToastSettings, toastStore } from '@skeletonlabs/skeleton';
 
-	import type { PageData } from './$types'
+	import type { PageData } from './$types';
 
 	export let data: PageData;
 	export let listings: Listing[] = [];
@@ -19,7 +19,9 @@
 	};
 
 	onMount(async () => {
-		const response = await fetch(`/api/bookmarks?pageIndex=0&pageSize=10&userId=${data.session.user.id}`);
+		const response = await fetch(
+			`/api/bookmarks?pageIndex=0&pageSize=10&userId=${data.session.user.id}`
+		);
 		const res = await response.json();
 		listings = res.listings;
 		sizeTotal = res.total;

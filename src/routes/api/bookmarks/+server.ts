@@ -46,10 +46,10 @@ export async function GET({ url }: any) {
 		};
 	}
 
-    const { data: userBookmarks, error: countError } = await supabase
-	.from('bookmarks')
-	.select('listing_id')
-	.eq('user_id', userId);
+	const { data: userBookmarks, error: countError } = await supabase
+		.from('bookmarks')
+		.select('listing_id')
+		.eq('user_id', userId);
 
 	if (countError) {
 		return {

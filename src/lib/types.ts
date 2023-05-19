@@ -32,7 +32,6 @@ export interface MessageData {
 	sender_id: string;
 }
 
-
 export interface Bookmark {
 	id: string;
 	userId: string;

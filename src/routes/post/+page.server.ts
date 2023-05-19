@@ -13,20 +13,18 @@ export const actions = {
 		console.log([
 			{ title, description, price, address, images: imageId, ownerId },
 		]);
-		const { data, error } = await supabase
-			.from('listings')
-			.insert([
-				{
-					title,
-					description,
-					price,
-					address,
-					images: imageId,
-					ownerId,
-					dateTimePosted,
-					stillAvailable,
-				},
-			]);
+		const { data, error } = await supabase.from('listings').insert([
+			{
+				title,
+				description,
+				price,
+				address,
+				images: imageId,
+				ownerId,
+				dateTimePosted,
+				stillAvailable,
+			},
+		]);
 
 		if (error) {
 			console.log('Error inserting data:', error);

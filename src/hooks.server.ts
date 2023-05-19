@@ -5,8 +5,8 @@ import {
 } from '$env/static/public';
 import { createSupabaseServerClient } from '@supabase/auth-helpers-sveltekit';
 import type { Handle } from '@sveltejs/kit';
-import type { RequestHandler } from './$types'
-import { redirect, error } from '@sveltejs/kit'
+import type { RequestHandler } from './$types';
+import { redirect, error } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.supabase = createSupabaseServerClient({
@@ -14,8 +14,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 		supabaseKey: PUBLIC_SUPABASE_ANON_KEY,
 		event,
 	});
-
-
 
 	/**
 	 * a little helper that is written for convenience so that instead
@@ -29,18 +27,26 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return session;
 	};
 
-	if (event.url.pathname.startsWith('/api/bookmarks') || event.url.pathname.startsWith('/api/messages')) {
-		const session = await event.locals.getSession()
+	if (
+		event.url.pathname.startsWith('/api/bookmarks') ||
+		event.url.pathname.startsWith('/api/messages')
+	) {
+		const session = await event.locals.getSession();
 		if (!session) {
-		  // the user is not signed in
-		  throw redirect(303, '/')
+			// the user is not signed in
+			throw redirect(303, '/');
 		}
 	}
-	if (event.url.pathname.startsWith('/bookmarks') || event.url.pathname.startsWith('/messages') || event.url.pathname.startsWith('/my-listings') || event.url.pathname.startsWith('/profile')) {
-		const session = await event.locals.getSession()
+	if (
+		event.url.pathname.startsWith('/bookmarks') ||
+		event.url.pathname.startsWith('/messages') ||
+		event.url.pathname.startsWith('/my-listings') ||
+		event.url.pathname.startsWith('/profile')
+	) {
+		const session = await event.locals.getSession();
 		if (!session) {
-		  // the user is not signed in
-		  throw redirect(303, '/')
+			// the user is not signed in
+			throw redirect(303, '/');
 		}
 	}
 

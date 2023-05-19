@@ -5,13 +5,12 @@
 
 	let reply = '';
 
-    function handleSendClick() {
-    if (reply.trim()) {
-        console.log("Sending message: " + reply);
-        dispatch('send', reply);
-    }
-}
-
+	function handleSendClick() {
+		if (reply.trim()) {
+			console.log('Sending message: ' + reply);
+			dispatch('send', reply);
+		}
+	}
 </script>
 
 <div class="reply-popup">
